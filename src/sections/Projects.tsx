@@ -41,7 +41,7 @@ function RelicArt({ kind }: { kind: "palantir" | "voice" | "map" }) {
           />
         ))}
       </div>
-      <p className="wave-lang">हिंदी · English</p>
+      <p className="wave-lang">हिंदी · English · मारवाड़ी</p>
     </div>
   )
 }

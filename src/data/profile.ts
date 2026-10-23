@@ -69,11 +69,11 @@ export const projects = [
   },
   {
     title: "AI Voice Agent for Community Health Workers",
-    stack: ["Next.js", "TypeScript", "AssemblyAI", "Supabase"],
+    stack: ["Next.js", "TypeScript", "Sarvam AI", "Groq", "Supabase"],
     github: "",
     points: [
-      "Built a multilingual voice agent that lets frontline health workers log home visits by speaking in Hindi or English, turning free-form speech into structured medical records in real time.",
-      "Used AssemblyAI streaming speech-to-text and LLM-based structured extraction, with a conversational follow-up loop that asks for missing fields; records stored in Supabase (PostgreSQL).",
+      "Developed a multilingual voice agent that converts spoken home-visit reports from ASHA and Anganwadi workers (Hindi, English, Marwari) into structured health records, using Sarvam Saaras v3 streaming speech-to-text, LLM-based extraction and Supabase.",
+      "Engineered a safety-first child-triage pipeline (IMNCI) that separates LLM symptom extraction from a deterministic, source-cited rules engine built on the 2023 NHM guidelines; validated with 139 automated tests.",
     ],
     relic: "The Horn of Gondor",
     lore: "A call that is always answered: health workers speak, and the record writes itself.",
