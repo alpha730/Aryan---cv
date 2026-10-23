@@ -15,8 +15,8 @@ function Experience() {
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
       // the Seven branch out into the White Tree
-      morphTrigger(9, { trigger: card, start: "top 75%", end: "top 5%" })
-      morphTrigger(10, { trigger: body, start: "top 85%", end: "top 30%" })
+      morphTrigger(10, { trigger: card, start: "top 75%", end: "top 5%" })
+      morphTrigger(11, { trigger: body, start: "top 85%", end: "top 30%" })
     }, el)
 
     const mm = gsap.matchMedia(el)

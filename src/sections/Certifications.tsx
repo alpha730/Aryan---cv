@@ -15,8 +15,8 @@ function Certifications() {
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
       // the Tree's branches twine into the serpents of Barahir's ring
-      morphTrigger(11, { trigger: card, start: "top 75%", end: "top 5%" })
-      morphTrigger(12, { trigger: body, start: "top 85%", end: "top 30%" })
+      morphTrigger(12, { trigger: card, start: "top 75%", end: "top 5%" })
+      morphTrigger(13, { trigger: body, start: "top 85%", end: "top 30%" })
     }, el)
 
     const mm = gsap.matchMedia(el)

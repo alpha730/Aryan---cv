@@ -1607,6 +1607,159 @@ export function paintRingsOfPower() {
   return c
 }
 
+/* ── Thrór's Map ─────────────────────────────────────────────────────── */
+
+/** An angular rune of a few strokes, Cirth in spirit. */
+function rune(g: CanvasRenderingContext2D, x: number, y: number, h: number, r: () => number) {
+  g.beginPath()
+  g.moveTo(x, y - h / 2)
+  g.lineTo(x, y + h / 2)
+  const kind = r()
+  if (kind < 0.3) {
+    g.moveTo(x, y - h / 2)
+    g.lineTo(x + h * 0.36, y - h * 0.12)
+  } else if (kind < 0.55) {
+    g.moveTo(x - h * 0.3, y - h * 0.2)
+    g.lineTo(x, y)
+    g.lineTo(x + h * 0.3, y - h * 0.2)
+  } else if (kind < 0.8) {
+    g.moveTo(x, y - h * 0.1)
+    g.lineTo(x + h * 0.32, y - h * 0.4)
+    g.moveTo(x, y + h * 0.1)
+    g.lineTo(x + h * 0.32, y + h * 0.4)
+  } else {
+    g.moveTo(x - h * 0.3, y + h * 0.3)
+    g.lineTo(x + h * 0.3, y - h * 0.3)
+  }
+  g.stroke()
+}
+
+/**
+ * The map Gandalf gave Thorin: the Lonely Mountain, the dragon drawn in red,
+ * and moon-letters that shine only when the light falls right.
+ */
+export function paintMap() {
+  const W = 1000
+  const H = 820
+  const [c, g] = makeCanvas(W, H)
+  const r = rng(77)
+  const x0 = 110
+  const y0 = 90
+  const x1 = 890
+  const y1 = 730
+
+  // the parchment, its edges a little worn
+  g.beginPath()
+  const edge = (ax: number, ay: number, bx: number, by: number) => {
+    for (let i = 1; i <= 24; i++) {
+      const t = i / 24
+      g.lineTo(ax + (bx - ax) * t + (r() - 0.5) * 7, ay + (by - ay) * t + (r() - 0.5) * 7)
+    }
+  }
+  g.moveTo(x0, y0)
+  edge(x0, y0, x1, y0)
+  edge(x1, y0, x1, y1)
+  edge(x1, y1, x0, y1)
+  edge(x0, y1, x0, y0)
+  g.closePath()
+  const sheet = g.createRadialGradient(500, 400, 60, 500, 410, 520)
+  sheet.addColorStop(0, "#efdcae")
+  sheet.addColorStop(0.65, "#d6b77c")
+  sheet.addColorStop(1, "#8e6a35")
+  g.fillStyle = sheet
+  g.fill()
+  g.lineWidth = 3
+  g.strokeStyle = "#5b3d17"
+  g.stroke()
+
+  const ink = "#4a2f12"
+  g.strokeStyle = ink
+  g.fillStyle = ink
+  g.lineCap = "round"
+  g.lineJoin = "round"
+
+  // the Lonely Mountain and its spurs
+  g.lineWidth = 5
+  g.beginPath()
+  g.moveTo(300, 560)
+  g.lineTo(390, 450)
+  g.lineTo(430, 470)
+  g.lineTo(500, 300)
+  g.lineTo(570, 470)
+  g.lineTo(610, 450)
+  g.lineTo(700, 560)
+  g.stroke()
+  g.lineWidth = 2
+  for (let k = 0; k < 9; k++) {
+    const x = 440 + k * 14
+    g.beginPath()
+    g.moveTo(x, 470 - Math.abs(x - 500) * 0.4)
+    g.lineTo(x + 6, 540)
+    g.stroke()
+  }
+  // the river running out of the Front Gate
+  g.lineWidth = 3
+  g.beginPath()
+  g.moveTo(500, 560)
+  g.bezierCurveTo(470, 610, 560, 640, 520, 700)
+  g.stroke()
+
+  // Smaug, drawn in red above the mountain
+  g.fillStyle = "#b3261a"
+  g.beginPath()
+  g.moveTo(450, 240)
+  g.quadraticCurveTo(500, 200, 560, 230)
+  g.lineTo(600, 205)
+  g.lineTo(585, 238)
+  g.quadraticCurveTo(530, 262, 470, 252)
+  g.closePath()
+  g.fill()
+  g.beginPath()
+  g.moveTo(500, 225)
+  g.lineTo(480, 180)
+  g.lineTo(530, 222)
+  g.closePath()
+  g.fill()
+
+  // runes in ink along the top and bottom
+  g.strokeStyle = ink
+  g.lineWidth = 3
+  for (let k = 0; k < 16; k++) rune(g, 170 + k * 44, 140, 30, r)
+  for (let k = 0; k < 12; k++) rune(g, 250 + k * 44, 680, 26, r)
+
+  // a hand pointing to the secret door
+  g.lineWidth = 3
+  g.beginPath()
+  g.moveTo(760, 420)
+  g.lineTo(650, 420)
+  g.moveTo(670, 405)
+  g.lineTo(650, 420)
+  g.lineTo(670, 435)
+  g.stroke()
+
+  // and the moon-letters, glowing pale beside a crescent moon
+  haze(g, 240, 330, 150, "170,205,255", 0.35)
+  const [moon, m] = makeCanvas(100, 100)
+  circle(m, 50, 50, 46)
+  m.fillStyle = "rgba(225,238,255,0.95)"
+  m.fill()
+  m.globalCompositeOperation = "destination-out"
+  circle(m, 70, 38, 42)
+  m.fill()
+  g.drawImage(moon, 170, 250)
+  g.save()
+  g.globalCompositeOperation = "lighter"
+  g.shadowColor = "rgba(150,195,255,0.95)"
+  g.shadowBlur = 14
+  g.strokeStyle = "rgba(220,236,255,0.95)"
+  g.lineWidth = 3
+  for (let k = 0; k < 5; k++) rune(g, 180 + k * 34, 380, 26, r)
+  for (let k = 0; k < 4; k++) rune(g, 196 + k * 34, 425, 26, r)
+  g.restore()
+  glint(g, 220, 300, 26, 0.6)
+  return c
+}
+
 /* ── sampling ────────────────────────────────────────────────────────── */
 
 /**
@@ -1684,7 +1837,7 @@ export function sampleEmblem(image: HTMLCanvasElement, rows: number, seed: numbe
   return { image, home, color, coverage }
 }
 
-export const PAINTERS = [paintRing, paintVilya, paintNenya, paintNarya, paintPalantir, paintHorn, paintSeven, paintTree, paintBarahir, paintRingsOfPower]
+export const PAINTERS = [paintRing, paintVilya, paintNenya, paintNarya, paintPalantir, paintHorn, paintSeven, paintTree, paintBarahir, paintRingsOfPower, paintMap]
 
 const nextFrame = () => new Promise<void>((res) => requestAnimationFrame(() => setTimeout(res, 0)))
 

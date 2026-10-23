@@ -53,8 +53,8 @@ function Contact() {
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
       // Barahir's ring is drawn into the company of the Rings of Power, the One among them
-      morphTrigger(13, { trigger: card, start: "top 75%", end: "top 5%" })
-      morphTrigger(14, { trigger: body, start: "top 85%", end: "top 45%" })
+      morphTrigger(14, { trigger: card, start: "top 75%", end: "top 5%" })
+      morphTrigger(15, { trigger: body, start: "top 85%", end: "top 45%" })
     }, el)
 
     const mm = gsap.matchMedia(el)

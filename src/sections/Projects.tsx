@@ -6,7 +6,20 @@ import { Arrow } from "../components/icons"
 import { projects } from "../data/profile"
 import { morphTrigger } from "../motion/scene"
 
-function RelicArt({ kind }: { kind: "palantir" | "voice" }) {
+function RelicArt({ kind }: { kind: "palantir" | "voice" | "map" }) {
+  if (kind === "map") {
+    // moon-letters: runes that show only when the light falls right, as a Lingo does when its poster is scanned
+    return (
+      <div className="relic-art art-map" aria-hidden="true">
+        <div className="map-sheet">
+          <span className="map-moon" />
+          <span className="map-runes">ᚦᚱᛟᚱ · ᛗᚨᛈ</span>
+          <span className="map-scan" />
+        </div>
+        <p className="wave-lang">Lv 1 · Lv 2 · MAX</p>
+      </div>
+    )
+  }
   if (kind === "palantir") {
     return (
       <div className="relic-art art-palantir" aria-hidden="true">
@@ -42,7 +55,7 @@ function Projects() {
     const card = el.querySelector<HTMLElement>(".tc")!
     const pinEl = el.querySelector<HTMLElement>(".forge-pin")!
     const track = el.querySelector<HTMLElement>(".forge-track")!
-    const second = el.querySelectorAll<HTMLElement>(".relic")[1]
+    const [, second, third] = Array.from(el.querySelectorAll<HTMLElement>(".relic"))
     const ctx = gsap.context(() => {
       // Nenya's water catches fire: Narya, which then cools into the Palantír behind the first project
       morphTrigger(4, { trigger: card, start: "top 75%", end: "top 5%" })
@@ -78,6 +91,8 @@ function Projects() {
           })
           // the Palantír pours itself into the Horn as the second project arrives
           if (second) morphTrigger(6, { trigger: second, containerAnimation: walk, start: "left 85%", end: "left 30%" })
+          // and the Horn unrolls into Thrór's Map for the third
+          if (third) morphTrigger(7, { trigger: third, containerAnimation: walk, start: "left 85%", end: "left 30%" })
           if (motion) {
             gsap.from(".forge-end .split-char", {
               opacity: 0,
@@ -89,6 +104,7 @@ function Projects() {
           }
         } else {
           if (second) morphTrigger(6, { trigger: second, start: "top 85%", end: "top 30%" })
+          if (third) morphTrigger(7, { trigger: third, start: "top 85%", end: "top 30%" })
           if (motion) {
             gsap.utils.toArray<HTMLElement>(".relic").forEach((r) => {
               gsap.from(r, { opacity: 0, y: 60, duration: 1, ease: "power3.out", scrollTrigger: { trigger: r, start: "top 88%" } })

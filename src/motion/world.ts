@@ -12,6 +12,7 @@ export const EMBLEM = {
   tree: 7,
   barahir: 8,
   rings: 9,
+  map: 10,
 } as const
 
 /** hero: above the hero copy · title: a chapter's title card · back: faint, behind the text */
@@ -31,14 +32,15 @@ export const KEYFRAMES: { emblem: number; mode: Mode; realm: number }[] = [
   { emblem: EMBLEM.narya, mode: "title", realm: 3 }, //    4 → III. Projects
   { emblem: EMBLEM.palantir, mode: "back", realm: 3 }, //  5   first project
   { emblem: EMBLEM.horn, mode: "back", realm: 3 }, //      6   second project
-  { emblem: EMBLEM.seven, mode: "title", realm: 4 }, //    7 → IV. Skills
-  { emblem: EMBLEM.seven, mode: "back", realm: 4 }, //     8
-  { emblem: EMBLEM.tree, mode: "title", realm: 5 }, //     9 → V. Experience
-  { emblem: EMBLEM.tree, mode: "back", realm: 5 }, //      10
-  { emblem: EMBLEM.barahir, mode: "title", realm: 6 }, //  11 → VI. Certifications
-  { emblem: EMBLEM.barahir, mode: "back", realm: 6 }, //   12
-  { emblem: EMBLEM.rings, mode: "title", realm: 7 }, //    13 → Contact: all the Rings of Power
-  { emblem: EMBLEM.rings, mode: "back", realm: 7 }, //     14
+  { emblem: EMBLEM.map, mode: "back", realm: 3 }, //       7   third project
+  { emblem: EMBLEM.seven, mode: "title", realm: 4 }, //    8 → IV. Skills
+  { emblem: EMBLEM.seven, mode: "back", realm: 4 }, //     9
+  { emblem: EMBLEM.tree, mode: "title", realm: 5 }, //     10 → V. Experience
+  { emblem: EMBLEM.tree, mode: "back", realm: 5 }, //      11
+  { emblem: EMBLEM.barahir, mode: "title", realm: 6 }, //  12 → VI. Certifications
+  { emblem: EMBLEM.barahir, mode: "back", realm: 6 }, //   13
+  { emblem: EMBLEM.rings, mode: "title", realm: 7 }, //    14 → Contact: all the Rings of Power
+  { emblem: EMBLEM.rings, mode: "back", realm: 7 }, //     15
 ]
 
 export const TRANSITIONS = KEYFRAMES.length - 1

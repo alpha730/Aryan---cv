@@ -79,6 +79,19 @@ export const projects = [
     lore: "A call that is always answered: health workers speak, and the record writes itself.",
     art: "voice" as const,
   },
+  {
+    title: "Decade Hunt: Duolingo English Test × JECRC AR Game",
+    stack: ["Firebase"], // the CV's "[tech stack]" placeholder is left out until it is filled in
+    github: "",
+    points: [
+      "Built and deployed the AR game for Duolingo's 10-year campaign at JECRC, Duolingo's partner college in India: students scan official Duolingo posters to catch “Lingos” in AR.",
+      "Designed the game's level system (Lv 1, Lv 2, MAX), with streaks that players maintain to unlock higher levels; played by JECRC students at the campus event on Oct 22, 2026.",
+      "Worked with Duolingo's Mumbai team to adapt the app to Duolingo English Test brand guidelines, using official mascots and posters; hosted on Firebase.",
+    ],
+    relic: "Thrór's Map",
+    lore: "Its moon-letters show only when the light falls right: scan the poster, and the Lingo appears.",
+    art: "map" as const,
+  },
 ]
 
 /** span: how many of the four grid columns a card takes on wide screens */

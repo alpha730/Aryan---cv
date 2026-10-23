@@ -18,8 +18,8 @@ function Skills() {
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
       // the Horn falls apart and is forged again as the Seven, under Durin's crown
-      morphTrigger(7, { trigger: card, start: "top 75%", end: "top 5%" })
-      morphTrigger(8, { trigger: body, start: "top 85%", end: "top 30%" })
+      morphTrigger(8, { trigger: card, start: "top 75%", end: "top 5%" })
+      morphTrigger(9, { trigger: body, start: "top 85%", end: "top 30%" })
     }, el)
 
     const mm = gsap.matchMedia(el)
