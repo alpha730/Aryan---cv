@@ -81,7 +81,7 @@ export const projects = [
   },
   {
     title: "Decade Hunt: Duolingo English Test × JECRC AR Game",
-    stack: ["Firebase"], // the CV's "[tech stack]" placeholder is left out until it is filled in
+    stack: ["React", "TypeScript", "MindAR", "Firebase"],
     github: "",
     points: [
       "Built and deployed the AR game for Duolingo's 10-year campaign at JECRC, Duolingo's partner college in India: students scan official Duolingo posters to catch “Lingos” in AR.",
