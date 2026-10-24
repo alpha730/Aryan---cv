@@ -84,7 +84,7 @@ function Research() {
                 ) : (
                   <span className="status">
                     <i aria-hidden="true" />
-                    In progress
+                    Completed
                   </span>
                 )
               }

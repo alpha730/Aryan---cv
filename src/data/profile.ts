@@ -35,17 +35,17 @@ export const education = [
 export const research = [
   {
     title: "Robustness of LLM Agents to Indirect Prompt Injection",
-    when: "Sep 2026 – Present",
+    when: "Sep 2026 – Oct 2026",
     kind: "Independent project",
     github: "", // the project's repository, once it is public
     points: [
       "Built a LangGraph tool-using agent (Qwen via Groq) that answers remote-sensing questions over real Sentinel-2 NDVI, Sentinel-1 water-extent and ERA5 rainfall data for 6 regions in India.",
-      "Designed 20 benign tasks with automatic checkers, 5 indirect prompt-injection attack styles in 2 placements (reports and metadata), and 2 defenses: untrusted-data tagging and an action-confirmation gate.",
-      "Evaluation over 660 runs in progress, measuring attack success, exposure, and task utility.",
+      "Designed 20 tasks with automatic answer checks, 5 injection styles (incl. Hindi) in 2 placements, and 2 defenses (untrusted-data tagging, action gate); ran 660 runs measuring attack success and task utility together, AgentDojo-style.",
+      "Result: 0 of 600 attacked runs led to a harmful action, with 100% exposure; task success 96.5–100%; the agent flagged the injection in ≥88.5–96% of runs with no false alarms. Wrote a 6-page report with limitations; code and run traces are public.",
     ],
     tally: [
       { n: 6, label: "Regions of India" },
-      { n: 20, label: "Benign tasks" },
+      { n: 20, label: "Tasks" },
       { n: 5, label: "Attack styles" },
       { n: 2, label: "Placements" },
       { n: 2, label: "Defenses" },
