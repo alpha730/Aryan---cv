@@ -179,6 +179,8 @@ uniform float uIntro;
 uniform float uT;
 uniform float uSame;
 uniform float uStir;
+uniform float uSwirlA;
+uniform float uSwirlB;
 ${NOISE}
 ${MORPH}
 vec2 curl(vec2 p){
@@ -212,22 +214,32 @@ void main(){
   // mid-flight between two emblems the material is at its most liquid
   float travel = 4.0*m*(1.0-m)*(1.0-uSame);
 
+  // 0: the hero Ring melts like liquid metal; 1: every other emblem is an
+  // image of particles that the cursor drags and a slow current swirls apart
+  float sw = mix(uSwirlA, uSwirlB, m);
+
   vec2 acc = vec2(0.0);
   // blown outward and swirled around the cursor
-  acc += n*f*1.25*uStrength*uSpread*light;
-  acc += vec2(-n.y, n.x)*f*1.45*uStrength*uSpread*(0.4+sd);
+  acc += n*f*1.25*uStrength*uSpread*light*(1.0 - sw*0.75);
+  acc += vec2(-n.y, n.x)*f*1.45*uStrength*uSpread*(0.4+sd)*(1.0 - sw*0.6);
   // carried by the liquid wake
-  acc += (wake*42.0*uSpread*light - vel)*e*0.08;
+  acc += (wake*42.0*uSpread*light - vel)*e*0.08*(1.0 - sw);
+  // the cursor's momentum passes to the particles it sweeps through
+  acc += (wake*110.0*uSpread*(0.6 + sd*0.8) - vel*0.6)*e*0.1*sw;
   // curl-noise turbulence where the material is disturbed, flying, or forming
   vec2 q = p*0.0095 + vec2(uTime*0.35, -uTime*0.2);
   vec2 c = curl(q) + 0.5*curl(q*2.3 + 7.1);
-  acc += c*(e*1.2*uSpread + uIntro*1.5 + travel*(1.2 + uStir*1.5))*uTurb*light;
-  // elastic return to where it belongs
-  float k = (0.006 + 0.02*uReturn)*(0.65+sd*0.7)*(1.0 - uIntro*0.75);
+  acc += c*(e*1.2*uSpread*(1.0 - sw) + uIntro*1.5 + travel*(1.2 + uStir*1.5))*uTurb*light;
+  // a broad, slow current that swirls the disturbed particles apart
+  vec2 qs = p*0.0032 + vec2(uTime*0.09, uTime*0.06) + sd*0.6;
+  vec2 cs = curl(qs) + 0.35*curl(qs*2.1 + 3.7);
+  acc += cs*e*sw*3.2*uTurb*(0.5 + sd);
+  // elastic return to where it belongs, unhurried for the particle images
+  float k = (0.006 + 0.02*uReturn)*(0.65+sd*0.7)*(1.0 - uIntro*0.75)*(1.0 - sw*0.45);
   acc -= off*k;
 
   vel += acc*uDt;
-  vel *= pow(mix(0.93, 0.955, max(e, travel)), uDt);
+  vel *= pow(mix(mix(0.93, 0.955, max(e, travel)), 0.95, sw), uDt);
   off += vel*uDt;
   if(dot(off,off) < 0.0004 && dot(vel,vel) < 0.0004){ off = vec2(0.0); vel = vec2(0.0); }
   o = vec4(off, vel);
@@ -403,7 +415,7 @@ function compile(gl: WebGL2RenderingContext, vs: string, fs: string): Prog {
   return { p, u }
 }
 
-type GpuEmblem = { home: WebGLTexture; col: WebGLTexture; img: WebGLTexture; coverage: number }
+type GpuEmblem = { home: WebGLTexture; col: WebGLTexture; img: WebGLTexture; coverage: number; swirl: number }
 
 /* ── engine ──────────────────────────────────────────────────────────── */
 
@@ -599,8 +611,11 @@ export class MorphEngine {
     this.stateDirty = false
   }
 
-  /** Uploads an emblem; returns its index. */
-  addEmblem(e: Emblem) {
+  /**
+   * Uploads an emblem; returns its index. swirl 0 melts like liquid metal under
+   * the cursor, 1 is dragged and swirled apart as a particle image.
+   */
+  addEmblem(e: Emblem, swirl = 1) {
     const gl = this.gl
     const total = TEX_W * this.rows * 4
     if (e.home.length !== total || e.color.length !== total) throw new Error("Emblem sampled for another particle count")
@@ -616,7 +631,7 @@ export class MorphEngine {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-    this.emblems.push({ home, col, img, coverage: e.coverage })
+    this.emblems.push({ home, col, img, coverage: e.coverage, swirl })
     this.homesCpu.push(e.home)
     return this.emblems.length - 1
   }
@@ -901,6 +916,8 @@ export class MorphEngine {
     gl.uniform1f(P.u.uT, t)
     gl.uniform1f(P.u.uSame, same ? 1 : 0)
     gl.uniform1f(P.u.uStir, this.stir)
+    gl.uniform1f(P.u.uSwirlA, this.emblems[A.emblem].swirl)
+    gl.uniform1f(P.u.uSwirlB, this.emblems[B.emblem].swirl)
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
     this.stateIdx = dst
     this.stateDirty = true

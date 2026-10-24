@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef, useState } from "react"
 import { MorphEngine, type Emblem } from "../engine/MorphEngine"
 import { scene } from "../motion/scene"
+import { EMBLEM } from "../motion/world"
 
 interface StageProps {
   emblems: Emblem[] | null
@@ -28,7 +29,8 @@ function Stage({ emblems, rows, onReady }: StageProps) {
     try {
       // phones skip the idle shimmer, which keeps WebGL drawing, to save battery
       engine = new MorphEngine(canvas, rows, { reducedMotion: reduce.matches, ambient: !coarse }, fail)
-      for (const e of emblems) engine.addEmblem(e)
+      // the hero's One Ring melts under the cursor; every other emblem swirls apart like a particle image
+      emblems.forEach((e, i) => engine!.addEmblem(e, i === EMBLEM.one ? 0 : 1))
       scene.engine = engine
     } catch {
       engine?.destroy()
