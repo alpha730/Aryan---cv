@@ -118,6 +118,6 @@ export const certifications = [
   {
     title: "IBM RAG and Agentic AI Professional Certificate",
     issuer: "Coursera",
-    url: "https://www.coursera.org/account/accomplishments/specialization/G5XB7X5DNOF3", // the "View certificate" link
+    url: "https://www.coursera.org/account/accomplishments/specialization/G5XB7X5DNOF3?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=prof", // the "View certificate" link
   },
 ]
