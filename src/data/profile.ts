@@ -11,7 +11,7 @@ export const profile = {
   links: {
     github: "https://github.com/alpha730",
     linkedin: "https://www.linkedin.com/in/aryan-kumar-ai/",
-    cv: "https://drive.google.com/file/d/1w5cvWbDhB1Z_vvbW2-wt9e5OboBTZlOF/view?usp=sharing",
+    cv: "https://drive.google.com/file/d/1YoAHcQ9oWYsMibir773JmaEu5Sltpc_S/view?usp=sharing",
     // Gmail's compose window: a mailto: link does nothing on computers with no mail app set up
     gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`,
   },
@@ -118,6 +118,6 @@ export const certifications = [
   {
     title: "IBM RAG and Agentic AI Professional Certificate",
     issuer: "Coursera",
-    url: "", // the "View certificate" link
+    url: "https://www.coursera.org/account/accomplishments/specialization/G5XB7X5DNOF3", // the "View certificate" link
   },
 ]
