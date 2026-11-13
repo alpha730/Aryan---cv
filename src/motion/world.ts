@@ -90,7 +90,7 @@ export interface Realm {
  * inverted (see .night), so its accent is chosen for what it turns into.
  */
 export const REALMS: Realm[] = [
-  { name: "Middle-earth", place: "The Westlands · at the end of the Third Age", bg: [236, 226, 203], glow: [200, 150, 80], accent: [163, 48, 31] },
+  { name: "Middle-earth", place: "The Westlands · at the end of the Third Age", bg: [231, 218, 184], glow: [200, 150, 80], accent: [163, 48, 31] },
   { name: "The Shire", place: "Hobbiton · Bag End, under the Hill", bg: [234, 228, 200], glow: [140, 170, 90], accent: [58, 100, 50] },
   { name: "Rivendell", place: "Imladris · the Last Homely House", bg: [230, 228, 212], glow: [110, 150, 190], accent: [38, 82, 126] },
   { name: "Eregion", place: "Ost-in-Edhil · where the Rings were made", bg: [238, 223, 198], glow: [214, 120, 60], accent: [172, 70, 20] },

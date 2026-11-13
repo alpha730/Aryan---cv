@@ -24,15 +24,15 @@ const WASHES: [string, number, number, number, number][] = [
 ]
 
 const COLOURS: Record<string, string> = {
-  snow: "#f4f8fa",
-  green: "#8fb76a",
-  meadow: "#b9c98a",
-  forest: "#6f9163",
-  gold: "#dcc25e",
-  pale: "#cfd8c0",
-  plain: "#cdbf86",
-  ash: "#9a8078",
-  sand: "#e2b36a",
+  snow: "#e9dfb8",
+  green: "#8f9648",
+  meadow: "#b0a650",
+  forest: "#6c763a",
+  gold: "#c9a640",
+  pale: "#b9ad72",
+  plain: "#bfa24e",
+  ash: "#5e4424",
+  sand: "#cf9a50",
 }
 
 export function WashDefs({ layer }: { layer: string }) {

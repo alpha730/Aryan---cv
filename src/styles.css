@@ -163,7 +163,18 @@ a {
     radial-gradient(70% 55% at 50% 40%, color-mix(in srgb, var(--glow) 13%, transparent), transparent 70%),
     radial-gradient(40% 30% at 12% 88%, rgba(140, 100, 50, 0.1), transparent 70%),
     radial-gradient(34% 26% at 90% 14%, rgba(140, 100, 50, 0.08), transparent 70%),
-    radial-gradient(130% 105% at 50% 46%, transparent 58%, rgba(112, 76, 34, 0.3));
+    radial-gradient(125% 100% at 50% 46%, transparent 52%, rgba(92, 58, 20, 0.34) 82%, rgba(60, 34, 8, 0.6));
+}
+
+/* foxing: the brown blooms of an old sheet */
+.atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  background-size: 1100px 1100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .48 0 0 0 0 .33 0 0 0 0 .12 1.5 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
 }
 
 .stage {
@@ -181,9 +192,11 @@ a {
 }
 
 .map {
-  --land: color-mix(in srgb, var(--bg) 93%, #b98c44);
-  --ink: #2a2119;
-  --red: #a3301f;
+  --land: color-mix(in srgb, var(--bg) 42%, #cdb766);
+  --ink: #3a2913;
+  --red: #9a2a18;
+  /* water is drawn in a grey-green ink, as on an old chart */
+  --blue: #4c5c50;
   --inv: 2;
   --pen: 1;
   --fine: 1;
@@ -230,7 +243,7 @@ a {
 /* the Sea: lines of water following the shore */
 /* the Sea is painted, not left as bare paper: deep water, then two paler bands of shallows */
 .sea {
-  fill: color-mix(in srgb, var(--bg) 52%, #7fb0c2);
+  fill: color-mix(in srgb, var(--bg) 46%, #d3a877);
 }
 
 .shallows {
@@ -244,19 +257,19 @@ a {
 }
 
 .shallows.s2 {
-  stroke: color-mix(in srgb, var(--bg) 64%, #8dbcc9);
+  stroke: color-mix(in srgb, var(--bg) 50%, #dcbb88);
   stroke-width: 62;
 }
 
 .shallows.s1 {
-  stroke: color-mix(in srgb, var(--bg) 78%, #a6cdd3);
+  stroke: color-mix(in srgb, var(--bg) 56%, #e8d6a2);
   stroke-width: 26;
 }
 
 /* a darker edge just inside the shore, as if the wash had pooled there */
 .coast-shade {
   fill: none;
-  stroke: color-mix(in srgb, var(--land) 80%, #7d5f2e);
+  stroke: color-mix(in srgb, var(--land) 58%, #6a4b1a);
   stroke-width: 22;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -315,7 +328,7 @@ a {
 }
 
 .lake {
-  fill: color-mix(in srgb, var(--bg) 50%, #7fb0c2);
+  fill: color-mix(in srgb, var(--bg) 40%, #9aa88c);
   stroke: var(--blue);
   stroke-width: calc(1.5px * var(--pen));
 }
@@ -364,33 +377,33 @@ a {
 
 /* mountains in two tones: a sunlit western face, a shadowed eastern one, snow on the highest */
 .peaks g {
-  --mt: #ddd2bf;
-  --mt-s: #a39581;
+  --mt: #d6c47e;
+  --mt-s: #6f5a2c;
 }
 
 .peaks .white {
-  --mt: #ece7da;
-  --mt-s: #adb1b3;
+  --mt: #ddcf94;
+  --mt-s: #7a683a;
 }
 
 .peaks .blue {
-  --mt: #d3dbda;
-  --mt-s: #8399a6;
+  --mt: #cfc083;
+  --mt-s: #66603a;
 }
 
 .peaks .grey {
-  --mt: #d6d0c5;
-  --mt-s: #938d84;
+  --mt: #d2c186;
+  --mt-s: #6d5c34;
 }
 
 .peaks .mordor {
-  --mt: #8f827b;
-  --mt-s: #3d3533;
+  --mt: #9c8452;
+  --mt-s: #33240f;
 }
 
 .peaks .lonely {
-  --mt: #dbccb4;
-  --mt-s: #937d66;
+  --mt: #d9c684;
+  --mt-s: #6f5527;
 }
 
 .pk-l {
@@ -402,7 +415,7 @@ a {
 }
 
 .pk-w {
-  fill: #fffdf6;
+  fill: #efe4bb;
 }
 
 .pk-o {
@@ -414,31 +427,31 @@ a {
 }
 
 .map .hills {
-  fill: #c2cf93;
+  fill: #b7ad62;
 }
 
 /* woods, each in its own green */
 .map .wood .i {
-  fill: #93b26c;
+  fill: #8a9150;
 }
 
 .map .wood.mirkwood .i {
-  fill: #54754f;
+  fill: #535e2c;
 }
 
 .map .wood.fangorn .i {
-  fill: #6f9459;
+  fill: #69763a;
 }
 
 .map .wood.lorien .i {
-  fill: #e0bd52;
-  stroke: #6e5413;
+  fill: #c6a23a;
+  stroke: #5c4410;
 }
 
 .map .wood.trollshaws .i,
 .map .wood.ithilien .i,
 .map .wood.forlindon .i {
-  fill: #5f8a63;
+  fill: #5b6838;
 }
 
 /* the places are drawn with a firmer pen, and coloured */
@@ -450,29 +463,29 @@ a {
   stroke-width: calc(0.9px * var(--pen));
 }
 
-.map .c-grass { fill: #a9c47c; }
-.map .c-grass2 { fill: #cfcb7c; }
-.map .c-leaf { fill: #7fa55e; }
-.map .c-holly { fill: #4f7f57; }
-.map .c-rock { fill: #bdb19e; }
-.map .c-rock2 { fill: #d3cab9; }
-.map .c-stone { fill: #dad3c4; }
-.map .c-wall { fill: #f6eedb; }
-.map .c-white { fill: #fefbf2; }
-.map .c-slate { fill: #6d8aa3; }
-.map .c-brick { fill: #b9604a; }
-.map .c-thatch { fill: #dfb44e; }
-.map .c-straw { fill: #ecdcae; }
-.map .c-wood { fill: #b38c5b; }
-.map .c-iron { fill: #83868e; }
-.map .c-night { fill: #1c2640; }
-.map .c-ash { fill: #8f827a; }
-.map .c-dark { fill: #4b4541; }
-.map .c-glow { fill: #f5d97c; }
-.map .c-sail { fill: #fefbf2; }
-.map .c-sand { fill: #e6d19c; }
-.map .c-scale { fill: #7fae8f; }
-.map .c-drake { fill: #c2452c; }
+.map .c-grass { fill: #a8a35a; }
+.map .c-grass2 { fill: #c2b05a; }
+.map .c-leaf { fill: #7c8644; }
+.map .c-holly { fill: #56663a; }
+.map .c-rock { fill: #b09c66; }
+.map .c-rock2 { fill: #c8b780; }
+.map .c-stone { fill: #d0c08a; }
+.map .c-wall { fill: #ead9a6; }
+.map .c-white { fill: #f1e7c0; }
+.map .c-slate { fill: #6e7052; }
+.map .c-brick { fill: #9c5634; }
+.map .c-thatch { fill: #c2953a; }
+.map .c-straw { fill: #dcc88c; }
+.map .c-wood { fill: #8f6c3a; }
+.map .c-iron { fill: #7a7462; }
+.map .c-night { fill: #1c2030; }
+.map .c-ash { fill: #806a44; }
+.map .c-dark { fill: #3c2f1f; }
+.map .c-glow { fill: #e6c260; }
+.map .c-sail { fill: #f1e7c0; }
+.map .c-sand { fill: #d6bf7c; }
+.map .c-scale { fill: #7f8a4e; }
+.map .c-drake { fill: #a83a22; }
 
 /* the Doors of Durin are drawn in silver on the dark of the gate */
 .map .durin .i {
@@ -501,11 +514,11 @@ a {
 }
 
 .ribbon {
-  fill: #fbf3df;
+  fill: #efe2b4;
 }
 
 .ribbon-tail {
-  fill: #e4cf9e;
+  fill: #cfb672;
 }
 
 .ribbon-fold {
@@ -528,11 +541,11 @@ a {
 
 /* the title scroll */
 .map .scroll {
-  fill: #fbf3df;
+  fill: #efe2b4;
 }
 
 .map .scroll-roll {
-  fill: #e4cf9e;
+  fill: #cfb672;
 }
 
 .scroll-rule {
@@ -544,7 +557,7 @@ a {
 .cart-title {
   font-family: var(--display);
   font-size: 30px;
-  fill: var(--ink);
+  fill: var(--red);
 }
 
 .cart-line {
@@ -595,13 +608,14 @@ a {
 }
 
 .lab-big {
-  font-family: var(--head);
-  font-size: var(--big);
-  letter-spacing: 0.24em;
-  fill: #8e2617;
+  font-family: var(--display);
+  font-size: calc(var(--big) * 0.94);
+  letter-spacing: 0.3em;
+  fill: #9a2a18;
 }
 
 .lab-mid {
+  fill: #8a2c18;
   font-style: italic;
   font-size: clamp(calc(var(--inv) * 10.5px), 19px, calc(var(--inv) * 15px));
   letter-spacing: 0.06em;
