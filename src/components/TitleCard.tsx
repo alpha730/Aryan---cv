@@ -9,13 +9,13 @@ interface TitleCardProps {
   realm: string
   /** The section's heading, as the CV has it. */
   title: string
-  /** The ring or sigil the emblem above has become. */
+  /** What stands at this place on the map. */
   relic: string
   lore: string
   titleId: string
 }
 
-/** A chapter's opening screen: the emblem above, the CV heading below. */
+/** A chapter's opening screen: its place on the map above, the CV heading below. */
 export default function TitleCard({ kicker, realm, title, relic, lore, titleId }: TitleCardProps) {
   return (
     <header className="tc">

@@ -1,12 +1,12 @@
-import { memo, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from "react"
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import TitleCard, { titleCardMotion } from "../components/TitleCard"
-import { Arrow, CheckIcon, CopyIcon, RingMark } from "../components/icons"
+import { Arrow, CheckIcon, CopyIcon, FlameIcon } from "../components/icons"
 import { profile } from "../data/profile"
 import { morphTrigger } from "../motion/scene"
-import { onUnseenChange, wearRing } from "../motion/unseen"
+import { openEgg } from "../motion/eggs"
 
-const LINES = ["Speak, friend,", "and enter."]
+const LINES = ["The road goes", "ever on."]
 
 /** The address itself: one press copies it, for anyone who would rather write from their own mail app. */
 function CopyEmail() {
@@ -41,10 +41,8 @@ function CopyEmail() {
 
 function Contact() {
   const ref = useRef<HTMLElement>(null)
-  const [unseen, setUnseen] = useState(false)
   const { links } = profile
 
-  useEffect(() => onUnseenChange(setUnseen), [])
 
   useLayoutEffect(() => {
     const el = ref.current
@@ -52,7 +50,7 @@ function Contact() {
     const card = el.querySelector<HTMLElement>(".tc")!
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
-      // Barahir's ring is drawn into the company of the Rings of Power, the One among them
+      // the last leg: down Anduin and round the coast by ship, to the Havens
       morphTrigger(14, { trigger: card, start: "top 75%", end: "top 5%" })
       morphTrigger(15, { trigger: body, start: "top 85%", end: "top 45%" })
     }, el)
@@ -70,7 +68,7 @@ function Contact() {
       })
       // explicit end values: the button's own CSS transition would otherwise be read as where it rests
       gsap.fromTo(
-        [".contact-copy", ".contact-actions > *", ".contact-mail", ".unseen-wrap"],
+        [".contact-copy", ".contact-actions > *", ".contact-mail", ".egg-wrap"],
         { opacity: 0, y: 30 },
         {
           opacity: 1,
@@ -88,25 +86,20 @@ function Contact() {
     }
   }, [])
 
-  const toggle = (e: MouseEvent<HTMLButtonElement>) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    wearRing(!unseen, r.left + r.width / 2, r.top + r.height / 2)
-  }
-
   return (
     <section ref={ref} id="contact" className="chapter contact" aria-labelledby="contact-title">
       <TitleCard
         kicker="Epilogue"
         realm="The Grey Havens"
         title="Contact"
-        relic="The Rings of Power"
-        lore="Three for the Elves, Seven for the Dwarves, Nine for Men, and One to bring them all. Send word."
+        relic="The last ship, at Mithlond"
+        lore="The map ends at the Sea, but the road goes ever on. Send word before the ship sails."
         titleId="contact-title"
       />
       <div className="chapter-body">
         <div className="wrap finale">
           <p className="finale-lines">
-            <span className="visually-hidden">Speak, friend, and enter.</span>
+            <span className="visually-hidden">The road goes ever on.</span>
             {LINES.map((l) => (
               <span className="finale-line" key={l} aria-hidden="true">
                 {l}
@@ -138,11 +131,14 @@ function Contact() {
             ) : null}
           </div>
           <CopyEmail />
-          <div className="unseen-wrap">
-            <p className="unseen-hint">— one last thing, if you dare —</p>
-            <button type="button" className="unseen-btn" onClick={toggle} aria-pressed={unseen}>
-              <RingMark size={18} />
-              {unseen ? "Take it off" : "Put on the Ring"}
+          <div className="egg-wrap">
+            <p className="egg-hint">— one last thing, before you go —</p>
+            <button type="button" className="egg-btn" onClick={() => openEgg("beacons")}>
+              <FlameIcon />
+              Light the beacons
+            </button>
+            <button type="button" className="egg-riddle" onClick={() => openEgg("doors")}>
+              or speak, friend, and enter
             </button>
           </div>
         </div>

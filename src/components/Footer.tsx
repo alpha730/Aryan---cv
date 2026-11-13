@@ -23,8 +23,7 @@ function Footer() {
         <div className="footer-bottom">
           <p>© 2026 {profile.name} · Forged in Jaipur</p>
           <p className="footer-fine">
-            Particle engine adapted from Liquid Sculpture Hero by Guglielmo Giannattasio (MIT). A fan-made theme, not
-            affiliated with the Tolkien Estate or the films.
+            A fan-made theme, not affiliated with the Tolkien Estate or the films.
           </p>
         </div>
       </div>

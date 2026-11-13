@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react"
 import gsap from "gsap"
-import { RingMark, Sting } from "./icons"
+import { Quill, RingMark } from "./icons"
 import { profile } from "../data/profile"
 import { REALMS, ROMAN } from "../motion/world"
 
@@ -19,7 +19,7 @@ export const SECTIONS = [
  * the realm you are in, the road you have walked, and the cursor.
  */
 function Hud({ revealed }: { revealed: boolean }) {
-  // Sting for a cursor, on devices with a mouse: it glows blue when there is something to click
+  // a quill for a cursor, on devices with a mouse: it takes red ink when there is something to click
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return
     const el = document.querySelector<HTMLElement>(".cursor")
@@ -103,7 +103,7 @@ function Hud({ revealed }: { revealed: boolean }) {
         <span className="hud-road-ring" />
       </div>
       <div className="cursor" aria-hidden="true">
-        <Sting />
+        <Quill />
       </div>
     </>
   )

@@ -2,9 +2,9 @@ import { Fragment, memo, useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-/** The Ring-verse on one row, the work on the other. */
+/** The road on one row, the work on the other. */
 const ROWS = [
-  ["Three for the Elven-kings", "Seven for the Dwarf-lords", "Nine for Mortal Men", "One for the Dark Lord"],
+  ["From the Shire", "to Rivendell", "through Eregion and Moria", "by Rohan and Gondor", "to the Grey Havens"],
   ["LLM agents", "Earth observation", "Prompt-injection research", "LangGraph", "RAG", "Sentinel-1 & 2", "Voice AI", "PyTorch"],
 ]
 

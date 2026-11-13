@@ -125,8 +125,8 @@ function Projects() {
         kicker="Chapter III"
         realm="Eregion"
         title="Projects"
-        relic="Narya, the Ring of Fire"
-        lore="The Rings were forged in Eregion, and Narya was given for heavy labours. These are mine, forged in code."
+        relic="The forges of Ost-in-Edhil"
+        lore="Here the Elven-smiths made their greatest works. These are mine, forged in code."
         titleId="projects-title"
       />
       <div className="forge-pin">

@@ -53,6 +53,23 @@ export const CvIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 )
 
+export const FlameIcon = ({ size = 18 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 1-3-1-6 1-10z" />
+  </svg>
+)
+
+/** A quill, its nib at the top left so the nib is the cursor's hotspot. It dips in red ink over anything that can be clicked. */
+export const Quill = () => (
+  <svg className="quill" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <path className="quill-vane" d="M9 10C13 5 22 4 31 9C33 17 31 26 25 31C20 30 14 24 9 10Z" />
+      <path className="quill-rib" d="M3.500 3.500 26 27M13 13l9-3M16 16.500l11-1M19.500 20l9 3M14 13.500l1 8M18 18l2 8" />
+      <path className="quill-nib" d="M1.500 1.500 10.500 6.500 6.500 10.500Z" />
+    </g>
+  </svg>
+)
+
 const BLADE = "M0 0 4-1.15 11-2.05 17-2.45 21.2-2.1 23-1.75V1.75L21.2 2.1 17 2.45 11 2.05 4 1.15Z"
 
 /** Sting, Bilbo's little Elvish sword, laid with its point at the top left so the point is the cursor's hotspot. */

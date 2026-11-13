@@ -1,19 +1,20 @@
 import { useEffect, useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
 import { decode } from "../motion/text"
+import { profile } from "../data/profile"
 
 interface PreloaderProps {
-  /** 0–1: how much of the site has been painted and sampled */
+  /** 0–1: how much of the site is ready */
   progress: number
   ready: boolean
-  /** called as the doors begin to swing */
+  /** called as the cover begins to turn */
   onOpen: () => void
-  /** called once the doors are gone */
+  /** called once the cover is gone */
   onDone: () => void
 }
 
-const INSCRIPTION = "SPEAK · FRIEND · AND · ENTER"
-const RUNIC = "ᛋᛈᛖᚨᚲ · ᚠᚱᛁᛖᚾᛞ · ᚨᚾᛞ · ᛖᚾᛏᛖᚱ"
+const INSCRIPTION = "THE · ROAD · GOES · EVER · ON"
+const RUNIC = "ᚦᛖ · ᚱᚩᚪᛞ · ᚷᚩᛖᛋ · ᛖᚢᛖᚱ · ᚩᚾ"
 
 function starPath(cx: number, cy: number, R: number, r: number) {
   let d = ""
@@ -25,58 +26,18 @@ function starPath(cx: number, cy: number, R: number, r: number) {
   return d + "Z"
 }
 
-const mirror = (d: string) => d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g, (_, x, y) => `${600 - Number(x)} ${y}`)
-
-const TREE = [
-  "M150 792 C154 660 146 540 168 444 C180 392 210 350 252 322",
-  "M166 470 C196 440 230 424 262 424",
-  "M160 560 C192 526 226 512 258 514",
-  "M172 404 C204 372 236 360 268 362",
-  "M156 650 C186 618 214 606 244 610",
+/** a little flourish for each corner of the cover */
+const CORNERS = [
+  "M44 104 A60 60 0 0 0 104 44 M44 84 A40 40 0 0 0 84 44",
+  "M556 104 A60 60 0 0 1 496 44 M556 84 A40 40 0 0 1 516 44",
+  "M44 696 A60 60 0 0 1 104 756 M44 716 A40 40 0 0 1 84 756",
+  "M556 696 A60 60 0 0 0 496 756 M556 716 A40 40 0 0 0 516 756",
 ]
 
-const SEVEN = Array.from({ length: 7 }, (_, k) => {
-  const a = -Math.PI / 2 + (k - 3) * 0.3
-  const x = 300 + Math.cos(a) * 150
-  const y = 540 + Math.sin(a) * 150
-  return `M${(x - 6).toFixed(1)} ${y.toFixed(1)} H${(x + 6).toFixed(1)} M${x.toFixed(1)} ${(y - 6).toFixed(1)} V${(y + 6).toFixed(1)}`
-}).join(" ")
-
-/** The West-gate of Moria, drawn in silver lines. */
-function DoorArt({ id }: { id: string }) {
-  return (
-    <svg className="door-art" viewBox="0 0 600 820" fill="none" aria-hidden="true">
-      <defs>
-        <path id={`arch-${id}`} d="M111 348 A189 189 0 0 1 489 348" />
-      </defs>
-      <path className="door-line" data-step="0" pathLength={1} d="M40 792 H560" />
-      <path className="door-line" data-step="0" pathLength={1} d="M96 792 V360 M126 792 V360 M474 792 V360 M504 792 V360" />
-      <path className="door-line" data-step="0" pathLength={1} d="M86 360 H136 M86 348 H136 M464 360 H514 M464 348 H514" />
-      <path className="door-line" data-step="1" pathLength={1} d="M96 348 A204 204 0 0 1 504 348" />
-      <path className="door-line" data-step="1" pathLength={1} d="M126 348 A174 174 0 0 1 474 348" />
-      {TREE.map((d, i) => (
-        <path key={"l" + i} className="door-line" data-step="2" pathLength={1} d={d} />
-      ))}
-      {TREE.map((d, i) => (
-        <path key={"r" + i} className="door-line" data-step="2" pathLength={1} d={mirror(d)} />
-      ))}
-      <path className="door-line" data-step="3" pathLength={1} d={starPath(300, 540, 78, 30)} />
-      <circle className="door-line" data-step="3" pathLength={1} cx="300" cy="540" r="14" />
-      <path className="door-line" data-step="3" pathLength={1} d="M276 436 L282 414 L292 428 L300 408 L308 428 L318 414 L324 436 Z" />
-      <path className="door-line" data-step="3" pathLength={1} d={SEVEN} />
-      <text className="door-text">
-        <textPath href={`#arch-${id}`} startOffset="50%" textAnchor="middle">
-          {RUNIC}
-        </textPath>
-      </text>
-    </svg>
-  )
-}
-
 /**
- * The way in: the Doors of Durin draw themselves as the site loads, the
- * inscription turns from runes into words, and the doors swing open onto
- * the Ring.
+ * The way in: the cover of the Red Book. Its gold tooling draws itself as the
+ * site loads, the runes around the star turn into words, and the cover swings
+ * open onto the map.
  */
 export default function Preloader({ progress, ready, onOpen, onDone }: PreloaderProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -92,9 +53,9 @@ export default function Preloader({ progress, ready, onOpen, onDone }: Preloader
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(".door-line", { strokeDasharray: 1, strokeDashoffset: 1 })
+      gsap.set(".book-line", { strokeDasharray: 1, strokeDashoffset: 1 })
       const tl = gsap.timeline({ paused: true })
-      for (let s = 0; s < 4; s++) tl.to(`.door-line[data-step="${s}"]`, { strokeDashoffset: 0, duration: 1, ease: "none" }, s * 0.75)
+      for (let s = 0; s < 4; s++) tl.to(`.book-line[data-step="${s}"]`, { strokeDashoffset: 0, duration: 1, ease: "none" }, s * 0.75)
       draw.current = tl
     }, ref)
     return () => ctx.revert()
@@ -119,18 +80,16 @@ export default function Preloader({ progress, ready, onOpen, onDone }: Preloader
       gsap
         .timeline({ delay: linger })
         .to(shown.current, { p: 1, duration: 0.5, ease: "power2.inOut", onUpdate: paint })
-        .to(".door-art", { filter: "drop-shadow(0 0 4px rgba(190,215,255,0.95)) drop-shadow(0 0 22px rgba(110,160,255,0.75))", duration: 0.7 })
+        .to(".book-art", { filter: "drop-shadow(0 0 3px rgba(255,226,150,0.9)) drop-shadow(0 0 18px rgba(240,180,80,0.55))", duration: 0.7 })
         .add(() => {
-          ref.current?.querySelectorAll<SVGTextPathElement>(".door-text textPath").forEach((el) => decode(el, INSCRIPTION, 900))
+          const el = ref.current?.querySelector<SVGTextPathElement>(".book-runes textPath")
+          if (el) decode(el, INSCRIPTION, 900)
         }, "<")
-        .to(".preloader-meta", { opacity: 0, y: 14, duration: 0.5 }, "+=0.55")
-        .to(".door-seam", { opacity: 1, scaleY: 1, duration: 0.45, ease: "power2.out" }, "<")
+        .to(".preloader-meta", { opacity: 0, y: 14, duration: 0.5 }, "+=0.6")
         .add(onOpen)
-        .to(".door-left", { rotateY: 84, duration: 1.9, ease: "power3.inOut" }, "+=0.05")
-        .to(".door-right", { rotateY: -84, duration: 1.9, ease: "power3.inOut" }, "<")
-        .to(".door", { filter: "brightness(0.35)", duration: 1.9, ease: "power2.in" }, "<")
-        .to(".door-seam", { opacity: 0, scaleX: 40, duration: 1.1, ease: "power2.out" }, "<+0.1")
-        .to(ref.current, { opacity: 0, duration: 0.45 }, "-=0.45")
+        .to(".book", { rotateY: -104, duration: 2, ease: "power3.inOut" }, "+=0.05")
+        .to(".book", { filter: "brightness(0.4)", duration: 2, ease: "power2.in" }, "<")
+        .to(ref.current, { opacity: 0, duration: 0.5 }, "-=0.55")
         .add(onDone)
     }, ref)
     return () => ctx.revert()
@@ -138,20 +97,42 @@ export default function Preloader({ progress, ready, onOpen, onDone }: Preloader
 
   return (
     <div ref={ref} className="preloader" role="status" aria-label="Loading">
-      <div className="door door-left">
-        <div className="door-face">
-          <DoorArt id="l" />
+      <div className="book">
+        <svg className="book-art" viewBox="0 0 600 800" fill="none" aria-hidden="true">
+          <defs>
+            <path id="book-arc" d="M157 420 A143 143 0 0 1 443 420" />
+          </defs>
+          <rect className="book-line" data-step="0" pathLength={1} x="30" y="30" width="540" height="740" rx="6" />
+          <rect className="book-line" data-step="0" pathLength={1} x="44" y="44" width="512" height="712" rx="3" />
+          {CORNERS.map((d, i) => (
+            <path key={i} className="book-line" data-step="1" pathLength={1} d={d} />
+          ))}
+          <path className="book-line" data-step="1" pathLength={1} d="M150 206 H450" />
+          <path className="book-line" data-step="1" pathLength={1} d="M150 640 H450" />
+          <circle className="book-line" data-step="2" pathLength={1} cx="300" cy="420" r="162" />
+          <circle className="book-line" data-step="2" pathLength={1} cx="300" cy="420" r="130" />
+          <path className="book-line" data-step="3" pathLength={1} d={starPath(300, 420, 112, 42)} />
+          <path className="book-line" data-step="3" pathLength={1} d={starPath(300, 420, 60, 24)} transform="rotate(22.5 300 420)" />
+          <circle className="book-line" data-step="3" pathLength={1} cx="300" cy="420" r="16" />
+          <text className="book-title" x="300" y="132" textAnchor="middle">
+            The Red Book
+          </text>
+          <text className="book-sub" x="300" y="176" textAnchor="middle">
+            of {profile.name}
+          </text>
+          <text className="book-runes">
+            <textPath href="#book-arc" startOffset="50%" textAnchor="middle">
+              {RUNIC}
+            </textPath>
+          </text>
+          <text className="book-sub book-foot" x="300" y="690" textAnchor="middle">
+            a map of the road so far
+          </text>
+        </svg>
+        <div className="preloader-meta" aria-hidden="true">
+          <p className="preloader-count">00</p>
+          <p className="preloader-caption">Opening the Red Book</p>
         </div>
-      </div>
-      <div className="door door-right">
-        <div className="door-face">
-          <DoorArt id="r" />
-        </div>
-      </div>
-      <div className="door-seam" aria-hidden="true" />
-      <div className="preloader-meta" aria-hidden="true">
-        <p className="preloader-count">00</p>
-        <p className="preloader-caption">Opening the West-gate</p>
       </div>
     </div>
   )

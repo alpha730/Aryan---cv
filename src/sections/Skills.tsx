@@ -52,8 +52,8 @@ function Skills() {
         kicker="Chapter IV"
         realm="Khazad-dûm"
         title="Skills"
-        relic="The Seven Rings of the Dwarf-lords"
-        lore="Seven rings went to the seven houses of the Dwarves, masters of every craft. Here are seven crafts of mine."
+        relic="The Doors of Durin"
+        lore="Seven stars shine over the West-gate, for the seven houses of the Dwarves, masters of every craft. Here are seven crafts of mine."
         titleId="skills-title"
       />
       <div className="chapter-body">
@@ -63,7 +63,7 @@ function Skills() {
               <span className="skill-rune" aria-hidden="true">
                 {s.rune}
               </span>
-              <p className="skill-ring">Ring {ROMAN[i]}</p>
+              <p className="skill-ring">Star {ROMAN[i]}</p>
               <h3>{s.label}</h3>
               <Chips items={s.items} />
             </article>

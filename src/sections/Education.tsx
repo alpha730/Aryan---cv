@@ -15,7 +15,7 @@ function Education() {
     const card = el.querySelector<HTMLElement>(".tc")!
     const body = el.querySelector<HTMLElement>(".chapter-body")!
     const ctx = gsap.context(() => {
-      // the One Ring melts into Vilya, then settles behind the text
+      // the map draws close on Bag End, then settles behind the text
       morphTrigger(0, { trigger: card, start: "top 75%", end: "top 5%" })
       morphTrigger(1, { trigger: body, start: "top 85%", end: "top 30%" })
     }, el)
@@ -72,10 +72,10 @@ function Education() {
     <section ref={ref} id="education" className="chapter" aria-labelledby="education-title">
       <TitleCard
         kicker="Chapter I"
-        realm="Rivendell"
+        realm="The Shire"
         title="Education"
-        relic="Vilya, the Ring of Air"
-        lore="Mightiest of the Three, kept by Elrond in Rivendell: the house where the heirs of kings were taught."
+        relic="Bag End, under the Hill"
+        lore="Every road begins at a round green door. This is where mine set out."
         titleId="education-title"
       />
       <div className="chapter-body">

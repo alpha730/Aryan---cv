@@ -61,10 +61,10 @@ function Research() {
     <section ref={ref} id="research" className="chapter" aria-labelledby="research-title">
       <TitleCard
         kicker="Chapter II"
-        realm="Lothlórien"
+        realm="Rivendell"
         title="Research Experience"
-        relic="Nenya, the Ring of Adamant"
-        lore="Galadriel's ring kept Lórien hidden from the Eye. This research asks how to keep an agent safe from what it reads."
+        relic="The Council of Elrond"
+        lore="In Elrond's house the wise weighed what could not be trusted. This research asks how to keep an agent safe from what it reads."
         titleId="research-title"
       />
       <div className="chapter-body">

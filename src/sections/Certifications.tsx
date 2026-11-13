@@ -40,10 +40,10 @@ function Certifications() {
     <section ref={ref} id="certifications" className="chapter" aria-labelledby="certifications-title">
       <TitleCard
         kicker="Chapter VI"
-        realm="Arnor"
+        realm="Gondor"
         title="Certifications"
-        relic="The Ring of Barahir"
-        lore="Finrod's token to Barahir, and long after, the proof of Aragorn's line: a credential, of a kind."
+        relic="The White City, and its seal"
+        lore="In Minas Tirith the scrolls of the realm were kept under the Steward's seal: a credential, of a kind."
         titleId="certifications-title"
       />
       <div className="chapter-body is-short">

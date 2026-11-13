@@ -2,14 +2,12 @@ import { useCallback, useEffect, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Lenis from "lenis"
-import { buildEmblems } from "./engine/emblems"
-import { isLowPower, particleRows, type Emblem } from "./engine/MorphEngine"
 import { scene } from "./motion/scene"
 import Preloader from "./components/Preloader"
-import Stage from "./components/Stage"
-import Embers from "./components/Embers"
+import MapStage from "./map/MapStage"
 import Hud from "./components/Hud"
-import Veil from "./components/Veil"
+import Beacons from "./components/Beacons"
+import Doors from "./components/Doors"
 import Footer from "./components/Footer"
 import Hero from "./sections/Hero"
 import Marquee from "./sections/Marquee"
@@ -23,35 +21,43 @@ import Contact from "./sections/Contact"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ROWS = particleRows(isLowPower())
+/** the hands the book is written in; the cover stays shut until they have arrived */
+const FONTS = [
+  "400 1em 'Uncial Antiqua'",
+  "400 1em 'IM Fell English'",
+  "italic 400 1em 'IM Fell English'",
+  "400 1em 'IM Fell English SC'",
+  "400 1em 'EB Garamond'",
+  "italic 400 1em 'EB Garamond'",
+  "400 1em 'Noto Sans Runic'",
+]
 
 export default function App() {
   const [progress, setProgress] = useState(0)
-  const [emblems, setEmblems] = useState<Emblem[] | null>(null)
-  const [stageReady, setStageReady] = useState(false)
-  /** the doors have begun to open */
+  const [ready, setReady] = useState(false)
+  /** the book has begun to open */
   const [revealed, setRevealed] = useState(false)
-  /** the doors are gone and the page may scroll */
+  /** the cover is gone and the page may scroll */
   const [loaded, setLoaded] = useState(false)
 
-  // paint the emblems (and wait for the fonts) behind the doors
+  // wait for the lettering behind the cover
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual"
     window.scrollTo(0, 0)
     let live = true
-    const fonts = Promise.race([document.fonts.ready, new Promise((res) => setTimeout(res, 2500))])
-    const job = buildEmblems(ROWS, (p) => {
-      if (live) setProgress(p * 0.9)
-    })
-    job.emblems.then(async (list) => {
-      await fonts
+    let done = 0
+    const step = () => {
+      done++
+      if (live) setProgress((done / FONTS.length) * 0.92)
+    }
+    const fonts = Promise.all(FONTS.map((f) => document.fonts.load(f, "Aᚠ").then(step, step)))
+    Promise.race([fonts, new Promise((res) => setTimeout(res, 2500))]).then(() => {
       if (!live) return
       setProgress(1)
-      setEmblems(list)
+      setReady(true)
     })
     return () => {
       live = false
-      job.stop()
     }
   }, [])
 
@@ -90,7 +96,7 @@ export default function App() {
     }
   }, [])
 
-  // the page holds still until the doors have opened
+  // the page holds still until the book has opened
   useEffect(() => {
     const root = document.documentElement
     if (!loaded) {
@@ -104,9 +110,8 @@ export default function App() {
     ScrollTrigger.refresh()
   }, [loaded])
 
-  const onStageReady = useCallback(() => setStageReady(true), [])
   const onOpen = useCallback(() => {
-    scene.engine?.startIntro()
+    scene.relayout(true)
     setRevealed(true)
   }, [])
   const onDone = useCallback(() => setLoaded(true), [])
@@ -117,11 +122,7 @@ export default function App() {
         Skip to content
       </a>
       <div className="atmosphere" aria-hidden="true" />
-      <div className="backdrop-frame" aria-hidden="true">
-        <div className="hero-backdrop">ARYAN</div>
-      </div>
-      <Stage emblems={emblems} rows={ROWS} onReady={onStageReady} />
-      <Embers />
+      <MapStage />
       <Hud revealed={revealed} />
       <main id="main">
         <Hero revealed={revealed} />
@@ -135,8 +136,10 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-      <Veil />
-      {loaded ? null : <Preloader progress={progress} ready={!!emblems && stageReady} onOpen={onOpen} onDone={onDone} />}
+      <div className="night" aria-hidden="true" />
+      <Beacons />
+      <Doors />
+      {loaded ? null : <Preloader progress={progress} ready={ready} onOpen={onOpen} onDone={onDone} />}
     </>
   )
 }

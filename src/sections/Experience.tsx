@@ -39,10 +39,10 @@ function Experience() {
     <section ref={ref} id="experience" className="chapter" aria-labelledby="experience-title">
       <TitleCard
         kicker="Chapter V"
-        realm="Gondor"
+        realm="Rohan"
         title="Experience"
-        relic="The White Tree, sigil of the House of Elendil"
-        lore="Its banner flew over the White City, borne by all who served it. Here is where I have served."
+        relic="Meduseld, the Golden Hall"
+        lore="The Riders answered when they were called, and rode. Here is where I have served."
         titleId="experience-title"
       />
       <div className="chapter-body is-short">
