@@ -33,6 +33,7 @@ function RelicArt({ kind }: { kind: "palantir" | "voice" | "map" }) {
   }
   return (
     <div className="relic-art art-voice" aria-hidden="true">
+      <img className="horn" src={`${import.meta.env.BASE_URL}relics/horn.webp`} alt="" />
       <div className="wave">
         {Array.from({ length: 31 }, (_, i) => (
           <span

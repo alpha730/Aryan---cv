@@ -1854,8 +1854,8 @@ html:not(.has-cursor) .cursor {
   height: 150px;
   border-radius: 50%;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 55%, #1b2a33, #05070a 72%);
-  box-shadow: 0 0 60px -10px rgba(110, 180, 230, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.9);
+  background: url("/relics/palantir.webp") center / cover no-repeat;
+  box-shadow: 0 0 60px -10px rgba(110, 180, 230, 0.5);
   transform: translateY(-14px);
 }
 
@@ -1867,10 +1867,12 @@ html:not(.has-cursor) .cursor {
     radial-gradient(circle, rgba(150, 220, 255, 0.5), transparent 50%);
   filter: blur(14px);
   mix-blend-mode: screen;
+  opacity: 0.55;
   animation: spin 14s linear infinite;
 }
 
 .orb-shine {
+  display: none;
   position: absolute;
   top: 12%;
   left: 20%;
@@ -1883,11 +1885,9 @@ html:not(.has-cursor) .cursor {
 .orb-stand {
   position: absolute;
   bottom: 30px;
-  width: 120px;
-  height: 22px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #6b4a17, #2b1d08);
-  box-shadow: 0 -2px 0 #a07a33 inset;
+  width: 132px;
+  height: 46px;
+  background: url("/relics/palantir-stand.webp") center / contain no-repeat;
 }
 
 @keyframes spin {
@@ -1908,7 +1908,13 @@ html:not(.has-cursor) .cursor {
   display: flex;
   align-items: center;
   gap: 5px;
-  height: 110px;
+  height: 70px;
+}
+
+.art-voice .horn {
+  width: min(210px, 70%);
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(30, 18, 6, 0.4));
 }
 
 .wave span {
@@ -1944,12 +1950,11 @@ html:not(.has-cursor) .cursor {
 
 .map-sheet {
   position: relative;
-  width: 170px;
-  height: 128px;
+  width: 190px;
+  height: 143px;
   overflow: hidden;
-  border-radius: 3px;
-  background: radial-gradient(circle at 50% 45%, #efdcae, #c9a466 70%, #8e6a35);
-  box-shadow: 0 0 50px -12px rgba(150, 195, 255, 0.55), inset 0 0 18px rgba(80, 50, 15, 0.6);
+  background: url("/relics/thror-map.webp") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 6px 14px rgba(40, 25, 5, 0.45)) drop-shadow(0 0 22px rgba(150, 195, 255, 0.35));
 }
 
 .map-moon {
@@ -3198,4 +3203,11 @@ html.is-egg .mark-link {
     animation: none;
     opacity: 0.5;
   }
+}
+/* the Ring mark beside the name: a painted gold band */
+.ring-mark {
+  display: inline-block;
+  flex: none;
+  object-fit: contain;
+  filter: drop-shadow(0 0 3px rgba(255, 200, 90, 0.45));
 }

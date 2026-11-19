@@ -1,8 +1,6 @@
+/** The Ring: a small painted gold band (public/relics/ring.webp). */
 export const RingMark = ({ size = 20 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <ellipse cx="12" cy="12" rx="9" ry="9" stroke="currentColor" strokeWidth="2.6" />
-    <ellipse cx="12" cy="12" rx="5.6" ry="5.6" stroke="currentColor" strokeOpacity=".35" strokeWidth=".8" />
-  </svg>
+  <img className="ring-mark" src={`${import.meta.env.BASE_URL}relics/ring.webp`} width={size} height={size} alt="" aria-hidden="true" />
 )
 
 export const Arrow = () => (

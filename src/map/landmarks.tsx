@@ -303,18 +303,59 @@ function Compass() {
   )
 }
 
+/**
+ * The painted places: a small realistic vignette for each stop of the road,
+ * laid over the parchment where the ink sketch used to stand. Each picture is
+ * 130 units square, set a little above the stop. Set SKETCH to bring the ink back.
+ *
+ * Eregion and Moria stand close together, and the road reaches Eregion between
+ * them: Eregion is nudged towards its marker and Moria made a little smaller
+ * and moved east, so the marker reads as Eregion's and not Moria's.
+ */
+const SKETCH = false
+
+function Painted({ stop, src, label, size = 130, dx = 0, dy = 0 }: { stop: number; src: string; label: string; size?: number; dx?: number; dy?: number }) {
+  return (
+    <g transform={at(stop)} className="painted">
+      <image
+        href={`${import.meta.env.BASE_URL}landmarks/${src}.webp`}
+        x={-size / 2 + dx}
+        y={(-size * 70) / 130 + dy}
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        aria-label={label}
+      />
+    </g>
+  )
+}
+
 export default function Landmarks() {
   return (
     <>
       <Elsewhere />
       <Compass />
-      <Rivendell />
-      <Eregion />
-      <Moria />
-      <BagEnd />
-      <Edoras />
-      <MinasTirith />
-      <GreyHavens />
+      {SKETCH ? (
+        <>
+          <Rivendell />
+          <Eregion />
+          <Moria />
+          <BagEnd />
+          <Edoras />
+          <MinasTirith />
+          <GreyHavens />
+        </>
+      ) : (
+        <>
+          <Painted stop={STOP.rivendell} src="rivendell" label="Rivendell" />
+          <Painted stop={STOP.eregion} src="eregion" label="The forges of Eregion" dx={24} dy={12} />
+          <Painted stop={STOP.moria} src="moria" label="The West-gate of Moria" size={110} dx={10} />
+          <Painted stop={STOP.shire} src="bagend" label="Bag End" />
+          <Painted stop={STOP.rohan} src="edoras" label="Edoras" />
+          <Painted stop={STOP.gondor} src="minastirith" label="Minas Tirith" />
+          <Painted stop={STOP.havens} src="havens" label="The Grey Havens" />
+        </>
+      )}
     </>
   )
 }
